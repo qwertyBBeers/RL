@@ -3,6 +3,8 @@ from torch import nn
 
 class DQN(nn.Module):
     def __init__(self, num_inputs, actions_dim):
+        #num_inputs : 상태 차원 수, actions_dim : 가능한 행동의 개수
+        #actions_dim 개수만큼 output을 출력하는 fully connected layer를 추가하여 신경망 모델 완성
         super(DQN, self).__init__()
 
         self.nn = nn.Sequential(
@@ -10,7 +12,9 @@ class DQN(nn.Module):
             nn.ReLU(),
             nn.Linear(128, 128),
             nn.ReLU(),
+            #활성화 함수로 ReLU함수 사용.
             nn.Linear(128, actions_dim)
+            #fully connected layer 정의 부
         )
 
     def forward(self, x):

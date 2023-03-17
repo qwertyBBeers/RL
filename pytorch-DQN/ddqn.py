@@ -68,7 +68,8 @@ class DDQNAgent:
         q_values = self.model(s0).cuda()
         next_q_values = self.model(s1).cuda()
         next_q_state_values = self.target_model(s1).cuda()
-
+        #현재 학습하고 있는 모델에 s0과 s1을 넣는다. 이를 통해 Q-value에 대해서 계산한다. .cuda는 GPU에서 수행하도록 해 주는 코드이다.
+        #next Q value 와 state value 에는 s1을 입력으로 받아 다음 상태에 대한 Q value에 대해서 계산하게 된다. 
         q_value = q_values.gather(1, a.unsqueeze(1)).squeeze(1)
         next_q_value = next_q_state_values.gather(1, next_q_values.max(1)[1].unsqueeze(1)).squeeze(1)
         expected_q_value = r + self.config.gamma * next_q_value * (1 - done)
